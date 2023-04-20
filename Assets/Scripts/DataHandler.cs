@@ -10,9 +10,7 @@ public class DataHandler : MonoBehaviour
 {
     public string API_URL= "https://ga1vqcu3o1.execute-api.us-east-1.amazonaws.com/Assessment/stack";
 
-    public JengaSpawner tower1;
-    public JengaSpawner tower2;
-    public JengaSpawner tower3;
+    public JengaSpawner[] towers;
 
     public TMP_Text grade1Label;
     public TMP_Text grade2Label;
@@ -73,13 +71,26 @@ public class DataHandler : MonoBehaviour
         {
             if (!grades.Contains(entry.grade))
             {
+                if (currentGradeCounter > 2)
+                {
+                    continue;
+                }
                 grades.Add(entry.grade);
+                towers[currentGradeCounter].blocks.Add(entry);
+                currentGradeCounter++;
             }
-
+            else
+            {
+                towers[grades.IndexOf(entry.grade)].blocks.Add(entry);
+            }
         }
         grade1Label.text = grades[0];
         grade2Label.text = grades[1];
         grade3Label.text = grades[2];
+        foreach(JengaSpawner tower in towers)
+        {
+            tower.buildTower();
+        }
     }
 
 }

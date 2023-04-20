@@ -4,27 +4,36 @@ using UnityEngine;
 
 public class JengaSpawner : MonoBehaviour
 {
-    public GameObject blockPrefab;
-    public int numLayers = 6; 
+    public GameObject woodBlockPrefab;
+    public GameObject stoneBlockPrefab;
+    public GameObject glassBlockPrefab;
+    //These values are implemented after research on Jenga block sizes 
     public float blockWidth = 1f;
     public float blockHeight = 0.5f; 
     public float rotationAngle = 90f;
     public float blockSpacing = 0.5f;
 
-    private List<GameObject> blocks = new List<GameObject>();  
-    private int currentLayer = 0;  
+    public List<GradeData> blocks = new List<GradeData>();  
+    private int currentLayer = 0;
+    private int currentBlock = 0;
 
     void Start()
     {
-        for (int i = 0; i < numLayers; i++)
-        {
-            AddLayer();
-        }
+        
     }
 
     private void Update()
     {
         
+    }
+
+    public void buildTower()
+    {
+        int numLayers = blocks.Count / 3;
+        for (int i = 0; i < numLayers; i++)
+        {
+            AddLayer();
+        }
     }
 
     void AddLayer()
@@ -36,9 +45,22 @@ public class JengaSpawner : MonoBehaviour
 
         for (int i = 0; i < 3; i++)
         {
-            GameObject block = Instantiate(blockPrefab,gameObject.transform,true);
-            
-            
+            GameObject block;
+            if (blocks[currentBlock].mastery == 0)
+            {
+                block = Instantiate(glassBlockPrefab, gameObject.transform, true);
+                block.GetComponent<StandardBlock>().blockType = StandardBlock.Type.Glass;
+            }
+            else if (blocks[currentBlock].mastery == 1)
+            {
+                block = Instantiate(woodBlockPrefab, gameObject.transform, true);
+                block.GetComponent<StandardBlock>().blockType = StandardBlock.Type.Wood;
+            }
+            else
+            {
+                block = Instantiate(stoneBlockPrefab, gameObject.transform, true);
+                block.GetComponent<StandardBlock>().blockType = StandardBlock.Type.Stone;
+            }            
             if (currentLayer % 2 == 1)
             {
                 block.transform.Rotate(new Vector3(0f, rotationAngle, 0f));
@@ -48,7 +70,8 @@ public class JengaSpawner : MonoBehaviour
             {
                 block.transform.position = transform.position + new Vector3(0f, offsetY, i * blockWidth + offsetZ+ (i - 1) * blockSpacing);
             }
-            blocks.Add(block);
+            block.GetComponent<StandardBlock>().setBlockData(blocks[currentBlock]);
+            currentBlock++;
         }
 
         currentLayer++;

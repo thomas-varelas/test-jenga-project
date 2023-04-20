@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 3d87dba4466be40778a14b3e5835682f
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Night in Tokyo
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 5274fda63e0b746228ef2cf169d32a1c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
